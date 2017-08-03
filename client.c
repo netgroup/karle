@@ -12,6 +12,7 @@ int main(int argc, char **argv) {
   bool evaluate_loss = false;
   uint32_t ts1, ts2, ts3, ts4, rtt;
   uint64_t to_sleep = 0;
+  uint64_t last_ts = 0;
   // Initialize node_state
   memset((void *) & node_state, 0, sizeof(struct state));
   // Set timeout options for socket
@@ -34,23 +35,19 @@ int main(int argc, char **argv) {
   serv_addr.sin_port = htons(PORT_SERVER);
   // Set the first ts for the loss evaluation
   node_state.last_evaluation = get_time64();
+
+
+
   // Main loop, send periodically udp probe
   while(1) {
-    // Prepare the probe packet
-    memset((void*) &probe, 0, sizeof(struct probe));
-    // Reset ts_buff
-    memset((void*) ts_buff, 0, sizeof(ts_buff));
     // Take current time
     ts = get_time64();
+    // Convert to 24 bit
     get_time(ts_buff, ts);
     // Insert ts in the packet
     memcpy(probe.ts_s_c, ts_buff, sizeof(ts_buff));
-
-
-    // Reset ts_buff
-    memset((void*) ts_buff, 0, sizeof(ts_buff));
     // Convert last_ts
-    get_time(ts_buff, node_state.last_ts);
+    get_time(ts_buff, last_ts);
     // Insert ts in the packet
     memcpy(probe.ts_r_c, ts_buff, sizeof(ts_buff));
 
@@ -66,6 +63,8 @@ int main(int argc, char **argv) {
     n = recvfrom(sockfd, &probe, sizeof(struct probe), 0, NULL, NULL);
     // Get time at receiving
     ts = get_time64();
+    // Double copy
+    last_ts = ts;
     // There was an error
     if(n < sizeof(struct probe))
       error("ERROR in recvfrom");
@@ -82,8 +81,10 @@ int main(int argc, char **argv) {
     // Timeout
     if(n < 0) {
       perror("Timeout");
+      // Prepare the probe packet
+      memset((void*) &probe, 0, sizeof(struct probe));
       // Reset last ts
-      node_state.last_ts = 0;
+      last_ts = 0;
       // Waiting for the next probe
       continue;
     }
@@ -112,11 +113,6 @@ int main(int argc, char **argv) {
     printf("ts1: %u us\n", ts1);
     printf("RTT: %u us\n", rtt);
     printf("EWMA RTT: %u us\n", 0);
-
-
-    // Update node_state
-    node_state.last_ts = ts;
-
 
     // Calculate the time spent during receiving
     ts = get_time64();

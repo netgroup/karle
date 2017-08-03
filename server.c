@@ -34,14 +34,11 @@ int main(int argc, char *argv[]) {
     error("ERROR on binding");
   // Print debug
   printf("Waiting for packets\n");
+
+
+
   // Main loop dispatacher
   while(1){
-    // Prepare the probe packet
-    memset((void*) &probe, 0, sizeof(struct probe));
-    // Reset ts buff
-    memset((void*) ts_buff, 0, sizeof(ts_buff));
-    // Reset ts
-    ts = 0;
     // Read datagram
     n = recvfrom(sockfd, &probe, sizeof(struct probe), 0, &cli_addr, &cli_addr_len);
     // Get time at receiving
@@ -61,8 +58,8 @@ int main(int argc, char *argv[]) {
     // Timeout
     if(n < 0) {
       perror("Timeout");
-      // Reset last ts
-      node_state.last_ts = 0;
+      // Prepare the probe packet
+      memset((void*) &probe, 0, sizeof(struct probe));
       // Waiting for the next probe
       continue;
     }
@@ -85,9 +82,7 @@ int main(int argc, char *argv[]) {
     ts4 = get_time32(ts_buff);
     ts3 = get_time32(probe.ts_s_c);
     ts2 = get_time32(probe.ts_r_c);
-    // Recover last ts
-    get_time(ts_buff, node_state.last_ts);
-    ts1 = get_time32(ts_buff);
+    ts1 = get_time32(probe.ts_s_s);
 
     // Server cannot calculate the first time the RTT
     if(ts4 > 0 && ts3 > 0 && ts2 >0 && ts1 > 0) {
@@ -100,8 +95,6 @@ int main(int argc, char *argv[]) {
       printf("RTT: %u us\n", rtt);
       printf("EWMA RTT: %u us\n", 0);
     }
-    // Update last ts seen
-    node_state.last_ts = ts;
 
 
     // Get time before to send

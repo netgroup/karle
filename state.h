@@ -6,8 +6,6 @@ struct state {
 	uint64_t ewmartt;
 	// EWMA related to the loss
 	uint64_t ewmaloss;
-	// last ts useful for the rtt
-	uint64_t last_ts;
 	// last ts for the evaluation
 	uint64_t last_evaluation;
 	// last loss sent

@@ -1,29 +1,27 @@
-# README #
+# RTT and LOSS calculator #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Simple Client/Server application for measuring Round Trip Time and One Way Loss
 
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* Simple application able to measure RTT and OWL on both side. The application is very trivial and it is meant to be efficient as much as possible and some functionalities have been sacrified.
+* version 0.1
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* Configurable parameters are in global.h
 
-### Contribution guidelines ###
+* To compile the Client:
 
-* Writing tests
-* Code review
-* Other guidelines
+		make client
 
-### Who do I talk to? ###
+* To compile the Server:
 
-* Repo owner or admin
-* Other community or team contact
+		make server
+
+* Run the node (Client or Server):
+
+		./node.bin
+
+
+
