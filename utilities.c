@@ -47,19 +47,31 @@ uint32_t get_time32(unsigned char *buffer){
   return val;
 }
 
-/*
 uint64_t get_and_increment_sent(){
   // Init steps
-  int local_seq_num;
-  // Move forward measure sequence number
-  context->loc_seq_number = context->loc_seq_number + 1;
-  // Take local seq number
-  local_seq_num = context->loc_seq_number;
-  // If we reached the max, let's restart with the sequence number
-  if(context->loc_seq_number == INT_MAX)
-    context->loc_seq_number = 0;
+  int sent;
+  // Move forward sent
+  node_state.sent = node_state.sent + 1;
+  // Update local sent
+  sent = node_state.sent;
+  // If we reached the max, let's restart
+  if(node_state.sent == UINT64_MAX)
+    node_state.sent = 0;
   // Done, return
-  return local_seq_num;
+  return sent;
 }
-*/
+
+uint64_t get_and_increment_rcv(){
+  // Init steps
+  int rcv;
+  // Move forward sent
+  node_state.rcv = node_state.rcv + 1;
+  // Update local sent
+  rcv = node_state.rcv;
+  // If we reached the max, let's restart
+  if(node_state.rcv == UINT64_MAX)
+    node_state.rcv = 0;
+  // Done, return
+  return rcv;
+}
 

@@ -8,14 +8,16 @@ struct state {
 	uint64_t ewmaloss;
 	// last ts for the evaluation
 	uint64_t last_evaluation;
-	// last loss sent
-	uint64_t last_lost_sent;
-	// last loss rcv
-	uint64_t last_lost_rcv;
-	// current loss sent
-	uint64_t lost_sent;
-	// current loss rcv
-	uint64_t lost_rcv;
+	// last sent
+	uint64_t last_sent;
+	// last rcv
+	uint64_t last_rcv;
+	// current sent
+	uint64_t sent;
+	// current rcv
+	uint64_t rcv;
+	// sent temp
+	uint64_t sent_temp;
 };
 
 // Global state
