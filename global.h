@@ -22,7 +22,7 @@
 // Probe interval in us
 #define PROBE_INTERVAL_US PROBE_INTERVAL_MS * 1000
 // Probe interval in ms
-#define PROBE_INTERVAL_MS 2000
+#define PROBE_INTERVAL_MS 100
 // Probe interval in s
 #define PROBE_INTERVAL_S PROBE_INTERVAL_MS/1000
 // Socket timeout for the client in us
@@ -32,16 +32,18 @@
 // Socket timeout for the client in s
 #define CLIENT_TIMEOUT_S PROBE_INTERVAL_S
 // Socket timeout for the server in us
-#define SERVER_TIMEOUT_US 4 * CLIENT_TIMEOUT_US
+#define SERVER_TIMEOUT_US 2 * CLIENT_TIMEOUT_US
 // Socket timeout for the server in ms
-#define SERVER_TIMEOUT_MS 4 * CLIENT_TIMEOUT_MS
+#define SERVER_TIMEOUT_MS 2 * CLIENT_TIMEOUT_MS
 // Socket timeout for the server in s
-#define SERVER_TIMEOUT_S 4 * CLIENT_TIMEOUT_S
+#define SERVER_TIMEOUT_S 2 * CLIENT_TIMEOUT_S
 // Evaluation timeout in us
-#define EVALUATION_TIMEOUT_US 10 * PROBE_INTERVAL_US
+#define EVALUATION_TIMEOUT_US 100 * PROBE_INTERVAL_US
 // Socket timeout for the server in ms
-#define EVALUATION_TIMEOUT_MS 10 * PROBE_INTERVAL_MS
+#define EVALUATION_TIMEOUT_MS 100 * PROBE_INTERVAL_MS
 // Socket timeout for the server in s
-#define EVALUATION_TIMEOUT_S 10 * PROBE_INTERVAL_S
+#define EVALUATION_TIMEOUT_S 100 * PROBE_INTERVAL_S
+// DEBUG level
+#define DEBUG 1
 
 #endif
