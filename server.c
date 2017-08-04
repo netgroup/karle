@@ -1,5 +1,18 @@
 #include "global.h"
 
+uint32_t PROBE_INTERVAL_US = 0;
+uint32_t PROBE_INTERVAL_MS = 0;
+uint32_t PROBE_INTERVAL_S = 0;
+uint32_t CLIENT_TIMEOUT_US = 0;
+uint32_t CLIENT_TIMEOUT_MS = 0;
+uint32_t CLIENT_TIMEOUT_S = 0;
+uint32_t SERVER_TIMEOUT_US = 0;
+uint32_t SERVER_TIMEOUT_MS = 0;
+uint32_t SERVER_TIMEOUT_S = 0;
+uint32_t EVALUATION_TIMEOUT_US = 0;
+uint32_t EVALUATION_TIMEOUT_MS = 0;
+uint32_t EVALUATION_TIMEOUT_S = 0;
+
 int main(int argc, char *argv[]) {
   // Init steps
   int sockfd;
@@ -17,6 +30,10 @@ int main(int argc, char *argv[]) {
   uint64_t rcv_by_client = 0;
   uint64_t sent_server_seen_by_client = 0;
   double loss = 0.0;
+  // Parse cmd line looking for ka period and ka timeout period
+  if(parse_cmd_line(argc, argv) != 0){
+    exit(1);
+  }
   // Set timeout options for socket
   memset((void *) &tval, 0, sizeof(tval));
   tval.tv_sec = SERVER_TIMEOUT_S;

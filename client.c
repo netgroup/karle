@@ -1,5 +1,18 @@
 #include "global.h"
 
+uint32_t PROBE_INTERVAL_US = 0;
+uint32_t PROBE_INTERVAL_MS = 0;
+uint32_t PROBE_INTERVAL_S = 0;
+uint32_t CLIENT_TIMEOUT_US = 0;
+uint32_t CLIENT_TIMEOUT_MS = 0;
+uint32_t CLIENT_TIMEOUT_S = 0;
+uint32_t SERVER_TIMEOUT_US = 0;
+uint32_t SERVER_TIMEOUT_MS = 0;
+uint32_t SERVER_TIMEOUT_S = 0;
+uint32_t EVALUATION_TIMEOUT_US = 0;
+uint32_t EVALUATION_TIMEOUT_MS = 0;
+uint32_t EVALUATION_TIMEOUT_S = 0;
+
 int main(int argc, char **argv) {
   // Init steps
   int sockfd;
@@ -18,6 +31,10 @@ int main(int argc, char **argv) {
   uint64_t rcv_by_server = 0;
   uint64_t sent_client_seen_by_server = 0;
   double loss = 0.0;
+  // Parse cmd line looking for ka period and ka timeout period
+  if(parse_cmd_line(argc, argv) != 0){
+    exit(1);
+  }
   // Initialize node_state
   memset((void *) &node_state, 0, sizeof(struct state));
   // Set timeout options for socket
@@ -153,7 +170,7 @@ int main(int argc, char **argv) {
     to_sleep = PROBE_INTERVAL_US - (ts - start);
     // Sleep for an amount of seconds to guarantee
     // the defined probe interval
-    if (to_sleep > 0)
+    if (to_sleep > 0 &&  to_sleep <= PROBE_INTERVAL_US)
       usleep(to_sleep);
   }
   // Done, exit
