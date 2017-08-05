@@ -7,6 +7,7 @@ Simple Client/Server application for measuring Round Trip Time and One Way Loss
 * Simple application able to measure RTT and OWL on both sides. The application is meant to be efficient as much as possible and some functionalities have been sacrified.
 * version 0.1: Architecture and RTT evaluation
 * version 0.2: Improvements, bug fixes and OWL evaluation
+* version 0.2.1: cmd line parameters for ka period and ka timeout
 
 ### How do I get set up? ###
 
@@ -20,9 +21,10 @@ Simple Client/Server application for measuring Round Trip Time and One Way Loss
 
 		make server
 
-* Run the node (Client or Server):
+* Run the node (Client or Server) providing with -k the keep alive period and -t the keep alive timeout:
 
-		./node.bin
+		./node.bin -k 1 -t 50
+
 
 
 

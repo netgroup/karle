@@ -15,5 +15,7 @@ uint32_t get_time32(unsigned char* buff);
 uint64_t get_and_increment_sent();
 // Utility function incrementing sent rcv
 uint64_t get_and_increment_rcv();
+// Utility function parsing cmd line params
+int parse_cmd_line(int argc, char **argv);
 
 #endif
